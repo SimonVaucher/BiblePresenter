@@ -5,7 +5,8 @@ import sys
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class TestamentModel(QAbstractTableModel):
+# DRYing up the code - all table models are a single column
+class BaseColumnModel(QAbstractTableModel):
     def __init__(self, parent, data, *args):
         QAbstractTableModel.__init__(self, parent, *args)
         self.data = data
@@ -14,8 +15,9 @@ class TestamentModel(QAbstractTableModel):
         return len(self.data)
 
     def columnCount(self, parent):
-        return 1 #len(self.mylist[0])
+        return 1
 
+class TestamentModel(BaseColumnModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
             return QVariant(self.data[index.row()][1])
@@ -27,17 +29,7 @@ class TestamentModel(QAbstractTableModel):
             return u"ברית"
         return QAbstractTableModel.headerData(self, section, orientation, role)
 
-class BookModel(QAbstractTableModel):
-    def __init__(self, parent, data, *args):
-        QAbstractTableModel.__init__(self, parent, *args)
-        self.data = data
-
-    def rowCount(self, parent):
-        return len(self.data)
-
-    def columnCount(self, parent):
-        return 1 #len(self.mylist[0])
-
+class BookModel(BaseColumnModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
             return QVariant(self.data[index.row()][2])
@@ -49,17 +41,7 @@ class BookModel(QAbstractTableModel):
             return u"ספר"
         return QAbstractTableModel.headerData(self, section, orientation, role)
 
-class ChapterModel(QAbstractTableModel):
-    def __init__(self, parent, data, *args):
-        QAbstractTableModel.__init__(self, parent, *args)
-        self.data = data
-
-    def rowCount(self, parent):
-        return len(self.data)
-
-    def columnCount(self, parent):
-        return 1 #len(self.mylist[0])
-
+class ChapterModel(BaseColumnModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
             return QVariant(self.data[index.row()][0])
@@ -70,18 +52,9 @@ class ChapterModel(QAbstractTableModel):
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
             return u"פרק"
         return QAbstractTableModel.headerData(self, section, orientation, role)
- 
-class VerseModel(QAbstractTableModel):
-    def __init__(self, parent, data, *args):
-        QAbstractTableModel.__init__(self, parent, *args)
-        self.data = data        
 
-    def rowCount(self, parent):
-        return len(self.data)
 
-    def columnCount(self, parent):
-        return 1 #len(self.mylist[0])
-
+class VerseModel(BaseColumnModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
             return QVariant(self.data[index.row()].num)
@@ -92,4 +65,3 @@ class VerseModel(QAbstractTableModel):
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
             return u"כל הפסוקים"
         return QAbstractTableModel.headerData(self, section, orientation, role)
-
