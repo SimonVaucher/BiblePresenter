@@ -17,6 +17,7 @@ class BaseColumnModel(QAbstractTableModel):
     def columnCount(self, parent):
         return 1
 
+
 class TestamentModel(BaseColumnModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
@@ -29,6 +30,7 @@ class TestamentModel(BaseColumnModel):
             return u"ברית"
         return QAbstractTableModel.headerData(self, section, orientation, role)
 
+
 class BookModel(BaseColumnModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
@@ -40,6 +42,7 @@ class BookModel(BaseColumnModel):
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
             return u"ספר"
         return QAbstractTableModel.headerData(self, section, orientation, role)
+
 
 class ChapterModel(BaseColumnModel):
     def data(self, index, role):
