@@ -14,14 +14,15 @@ class OtherScreen(QWidget):
         height = widget.screenGeometry(2).height()
 
         self.resize(0.9*width, 0.9*height)
-        self.move(widget.screenGeometry(2).topLeft())
-        self.setWindowTitle('another screen')
-        self.show()
+        # self.move(widget.screenGeometry(2).topLeft())
+        # self.setWindowTitle('another screen')
+        # self.show()
         print "here!"
 
 class Test(QWidget):
     def __init__(self):
         super(Test, self).__init__()
+        self.otherScreen = OtherScreen()
         widget = QDesktopWidget()
         # desk.screenGeometry(0) # main screenGeometry
         # desk.screenGeometry(1) # secondary screenGeometry
@@ -34,13 +35,12 @@ class Test(QWidget):
         height = widget.screenGeometry(0).height()
 
 
-        otherScreen = OtherScreen()
-        otherScreen.resize(0.9*width, 0.9*height)
-        otherScreen.move(widget.screenGeometry(2).topLeft()) # important
-        otherScreen.show()
+        # self.otherScreen.resize(0.9*width, 0.9*height)
+        self.otherScreen.move(widget.screenGeometry(2).topLeft()) # important
+        self.otherScreen.show()
 
-        dialog = QDialog()
-        dialog.show()
+        # dialog = QDialog()
+        # dialog.show()
         # self.setWindowFlags(Qt.FramelesssWindowHint)
         # desk = QDesktopWidget()
         # # otherScreen.showFullScreen() # no reason to fiddle with it, it is a presenter
@@ -49,7 +49,34 @@ class Test(QWidget):
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
+            self.otherScreen.close()
             self.close()
+        elif e.key() == Qt.Key_Tab:
+            if self.otherScreen.isVisible():
+                self.otherScreen.close()
+            else:
+                self.otherScreen.show()
+
+
+# class Test(QMainWindow):
+#     def __init__(self):
+#         super(Test, self).__init__()
+#         self.secondWin = QMainWindow()
+#         widget = QDesktopWidget()
+#         width = widget.screenGeometry(0).width()
+#         height = widget.screenGeometry(0).height()
+#         self.move(widget.screenGeometry(2).topLeft())
+#         dialog = QDialog()
+#         dialog.show()
+#         print "here!"
+#         secondWin = QMainWindow()
+#         secondWin.show()
+
+#     def keyPressEvent(self, e):
+#         if e.key() == Qt.Key_Escape:
+#             self.secondWin.show()
+
+#             # self.close()
 
 def main():
     # TODO:
@@ -63,7 +90,9 @@ def main():
     # 7. Separate verse selection change and text redraw
 
     app = QApplication(sys.argv)    
-    test = Test()
+    mainWin = Test()
+    mainWin.show()
+
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
