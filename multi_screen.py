@@ -28,6 +28,7 @@ class Test(QWidget):
         # desk.screenGeometry(1) # secondary screenGeometry
         # print desk.screenCount() # Duh
         self.show()
+        self.raise_() # bring to front
         # otherScreen = OtherScreen()
 
         widget = QDesktopWidget();

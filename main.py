@@ -65,6 +65,7 @@ class Presenter(QWidget):
 
         self.setLayout(layout)
         self.show()
+        self.raise_() # bring to front + focus
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
