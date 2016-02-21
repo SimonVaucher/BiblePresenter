@@ -1,0 +1,10 @@
+#!/bin/bash
+
+names=$(find -f $(pwd) | grep "OT\|NT")
+
+for fname in $names; do
+  if ! [ -d "$fname" ]; then
+    iconv -f windows-1255 -t utf-8 "$fname" > "$fname.new" &&
+    mv -f "$fname.new" "$fname"
+  fi
+done
